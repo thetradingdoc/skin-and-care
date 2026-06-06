@@ -17,8 +17,15 @@
 - [x] `patient-app/.env.example` — production API default for device builds
 - [ ] Add `EXPO_TOKEN` secret on skin-and-care GitHub repo (manual)
 - [ ] Apple Developer account + App Store Connect app record (manual)
-- [ ] `eas build --platform ios --profile preview` (manual or CI after EXPO_TOKEN)
-- [ ] `eas submit --platform ios` (manual)
+- [ ] EAS first build (manual — requires `eas login`):
+  ```bash
+  cd patient-app
+  npx eas login
+  npx eas init   # links com.skinandcare.app → Expo project; writes extra.eas.projectId to app.json
+  npx eas build --platform ios --profile preview --non-interactive
+  ```
+- [ ] After build completes: Expo dashboard → install on TestFlight internal testers
+- [ ] `eas submit --platform ios --profile production --latest` (after ASC app + eas.json submit creds)
 
 ## P1 — Auth and onboarding
 

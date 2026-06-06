@@ -8,6 +8,10 @@
 - [SOMO_GUIDELINES.md](./SOMO_GUIDELINES.md) — naming, design tokens, typography, and surface scope.
 - [SOMO_MARKETING_COLORS.md](../design/SOMO_MARKETING_COLORS.md) — Image 1 palette (marketing landing UI).
 
+## Consumer brand repos
+
+- [SKIN_AND_CARE_REPO.md](./SKIN_AND_CARE_REPO.md) — `brand/skin-and-care` branch → [skin-and-care](https://github.com/richiejeremiah/skin-and-care) GitHub repo, EAS/TestFlight workflow
+
 ## Related
 
 - [docs/README.md](../README.md)
