@@ -14,8 +14,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { PrimaryButton } from '@/components/billing-ui';
 import { JournalTokens } from '@/constants/journalTokens';
 import { PENDING_ROUTINE_CONCERN_KEY } from '@/constants/routineSession';
+import { useRequirePatientSession } from '@/hooks/useRequirePatientSession';
 import { patientPost, publicGet } from '@/lib/patient-api';
-import { getPatientSessionId } from '@/lib/patient-session';
 
 type ConcernRow = {
   id: string;
@@ -28,6 +28,7 @@ type ProgramPreview = {
 };
 
 export default function RoutinePickScreen() {
+  const { ready, checking } = useRequirePatientSession();
   const router = useRouter();
   const params = useLocalSearchParams<{ concern?: string }>();
   const [concerns, setConcerns] = useState<ConcernRow[]>([]);
@@ -79,10 +80,9 @@ export default function RoutinePickScreen() {
     setBusy(true);
     setError(null);
     try {
-      const sid = await getPatientSessionId();
-      if (!sid) {
+      if (!ready) {
         await SecureStore.setItemAsync(PENDING_ROUTINE_CONCERN_KEY, selected);
-        router.replace('/(tabs)');
+        router.replace('/sign-in');
         return;
       }
       await patientPost('/api/patient/routine/template', { concern_id: selected });
@@ -96,6 +96,14 @@ export default function RoutinePickScreen() {
   }
 
   const selectedRow = concerns.find((c) => c.id === selected);
+
+  if (checking || !ready) {
+    return (
+      <SafeAreaView style={styles.root}>
+        <ActivityIndicator color={JournalTokens.color.accent} style={{ marginTop: 48 }} />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.root}>

@@ -132,4 +132,8 @@ function registerEarlySomoLandingStatic(app, { express, rootDir }) {
   });
 }
 
-module.exports = { registerStaticHosting, registerEarlySomoLandingStatic, LEGACY_LANDING_REDIRECT_PREFIXES };
+module.exports = {
+  registerStaticHosting,
+  registerEarlySomoLandingStatic,
+  LEGACY_LANDING_REDIRECT_PREFIXES,
+};

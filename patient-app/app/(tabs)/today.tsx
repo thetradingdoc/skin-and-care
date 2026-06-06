@@ -1,7 +1,7 @@
 import * as ImagePicker from 'expo-image-picker';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RoutineStepsHero } from '@/components/RoutineStepsHero';
@@ -16,6 +16,7 @@ import {
   layeringUnavailableCopy,
   todayScreenTitle,
 } from '@/lib/routine-copy';
+import { useRequirePatientSession } from '@/hooks/useRequirePatientSession';
 
 type PhaseItem = {
   product_name?: string;
@@ -24,6 +25,7 @@ type PhaseItem = {
 };
 
 export default function TodayScreen() {
+  const { ready, checking } = useRequirePatientSession();
   const router = useRouter();
   const params = useLocalSearchParams<{ date?: string; photo?: string; celebrate?: string }>();
   const selectedDate =
@@ -185,6 +187,14 @@ export default function TodayScreen() {
   const loggedForDay = completionScore != null && completionScore >= 100;
   const showStepsHero = hasTemplate && phaseItems.length > 0 && dayMode !== 'historical';
 
+  if (checking || !ready) {
+    return (
+      <SafeAreaView style={styles.root} edges={['top', 'left', 'right']}>
+        <ActivityIndicator color={JournalTokens.color.accent} style={{ marginTop: 48 }} />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.root} edges={['top', 'left', 'right']}>
       <ScrollView
@@ -301,6 +311,10 @@ export default function TodayScreen() {
             ))}
           </View>
         ) : null}
+
+        <Text style={styles.disclaimer}>
+          Not a diagnosis. See a dermatologist if your symptoms worsen or you are unsure.
+        </Text>
       </ScrollView>
     </SafeAreaView>
   );
@@ -393,4 +407,12 @@ const styles = StyleSheet.create({
   },
   layerTitle: { fontWeight: '700', color: '#9a3412', fontSize: 13 },
   layerBody: { color: '#9a3412', fontSize: 12, lineHeight: 18 },
+  disclaimer: {
+    color: JournalTokens.color.muted,
+    fontSize: 12,
+    lineHeight: 18,
+    textAlign: 'center',
+    marginTop: 16,
+    paddingHorizontal: 8,
+  },
 });

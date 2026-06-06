@@ -3,6 +3,8 @@
   "type": "module",
   "scripts": {
     "check:brand": "node scripts/check-brand-strings.cjs",
+    "check:brand:skin-care": "BRAND_PROFILE=skin-and-care node scripts/check-brand-strings.cjs",
+    "push:skin-care": "node scripts/push-brand-remote.cjs skin-and-care",
     "brand:favicons": "node scripts/generate-brand-favicons.cjs",
     "brand:trim-logo": "node scripts/trim-somo-logo.cjs",
     "brand:sync": "node scripts/generate-brand-favicons.cjs && node scripts/sync-brand-assets.cjs",

@@ -44,8 +44,17 @@ function useAppDeepLinks() {
             router.replace('/(tabs)/today');
           }
         } catch {
-          router.replace('/(tabs)');
+          router.replace('/sign-in');
         }
+        return;
+      }
+
+      if (path === 'subscription/success' || path.includes('subscription/success')) {
+        router.replace({ pathname: '/(tabs)/account', params: { subscription: 'success' } });
+        return;
+      }
+      if (path === 'subscription/cancel' || path.includes('subscription/cancel')) {
+        router.replace({ pathname: '/(tabs)/account', params: { subscription: 'cancel' } });
         return;
       }
 
@@ -83,6 +92,7 @@ export default function RootLayout() {
       <BillingFeedbackProvider>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="sign-in" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
           <Stack.Screen name="checkout-chat" options={{ presentation: 'modal', title: 'Checkout chat' }} />
           <Stack.Screen name="scan-entry" options={{ presentation: 'modal', title: 'Quick capture' }} />

@@ -784,6 +784,43 @@ app.get('/api/patient/billing/rollout-config', (req, res, next) => apiLimiter(re
   });
 });
 
+app.post('/api/patient/billing/care-program/checkout', (req, res, next) => apiLimiter(req, res, next), express.json(), requirePatientSession, async (req, res) => {
+  try {
+    const { createCareProgramCheckout } = require('../services/care-program-billing-service');
+    const sessionId = req.patientSessionId;
+    const { patientId } = resolvePatientIdFromSession(req.patientSession || {});
+    const body = req.body && typeof req.body === 'object' ? req.body : {};
+    const email = String(body.email || req.patientSession?.email || '').trim();
+    const concernId = body.concern_id ? String(body.concern_id).trim() : null;
+
+    if (!email) {
+      return billingErr(res, 400, 'VALIDATION_ERROR', 'email is required for subscription checkout');
+    }
+
+    const result = await createCareProgramCheckout({
+      sessionId,
+      patientId,
+      email,
+      concernId,
+      successUrl: body.success_url || 'patientapp://subscription/success',
+      cancelUrl: body.cancel_url || 'patientapp://subscription/cancel',
+    });
+
+    recordPatientPortalEvent(req, 'care_program_checkout_started', {
+      concern_id: concernId,
+      checkout_session_id: result.session_id,
+    });
+
+    return billingOk(res, {
+      checkout_url: result.checkout_url,
+      session_id: result.session_id,
+    });
+  } catch (e) {
+    console.error('[CareProgram] checkout error:', e.message);
+    return billingErr(res, 500, 'CHECKOUT_FAILED', e.message);
+  }
+});
+
 app.get('/api/patient/billing/kpi-snapshot', (req, res, next) => apiLimiter(req, res, next), requirePatientSession, (req, res) => {
   try {
     ensureBillingTables();

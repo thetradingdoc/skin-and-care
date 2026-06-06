@@ -22,6 +22,7 @@ import { BillingBadge, StatusDot } from '@/components/billing-ui';
 import { ErrorCard, LoadingCard, OfflineBanner, useToast } from '@/components/billing-feedback';
 import { findPriorMediaDate } from '@/lib/routine-compare';
 import { patientGet, patientPatch } from '@/lib/patient-api';
+import { useRequirePatientSession } from '@/hooks/useRequirePatientSession';
 
 const SUBVIEWS = ['Photos', 'Calendar', 'List', 'Documents'] as const;
 type Subview = (typeof SUBVIEWS)[number];
@@ -192,6 +193,7 @@ function billingMarkerGlyph(billVis: ReturnType<typeof billingVisualForDay>): st
 }
 
 export default function JournalScreen() {
+  const { ready, checking } = useRequirePatientSession();
   const router = useRouter();
   const { showToast } = useToast();
   const [activeView, setActiveView] = useState<Subview>('Photos');
@@ -875,6 +877,14 @@ export default function JournalScreen() {
       </View>
     );
   };
+
+  if (checking || !ready) {
+    return (
+      <SafeAreaView style={styles.root} edges={['top', 'left', 'right']}>
+        <ActivityIndicator color={JournalTokens.color.accent} style={{ marginTop: 48 }} />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.root} edges={['top', 'left', 'right']}>

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "patient-app",
-    "slug": "patient-app",
+    "name": "Skin & Care",
+    "slug": "skin-care",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -10,13 +10,15 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
+      "bundleIdentifier": "com.skinandcare.app",
+      "buildNumber": "1",
       "infoPlist": {
-        "NSAppTransportSecurity": {
-          "NSAllowsLocalNetworking": true
-        }
+        "NSCameraUsageDescription": "Skin & Care uses the camera for daily progress photos so you can track changes in your skin over time.",
+        "NSPhotoLibraryUsageDescription": "Skin & Care can save progress photos from your library when you choose to upload instead of taking a new photo."
       }
     },
     "android": {
+      "package": "com.skinandcare.app",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -24,8 +26,7 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false,
-      "usesCleartextTraffic": true
+      "predictiveBackGestureEnabled": false
     },
     "web": {
       "output": "static",
@@ -33,6 +34,14 @@
     },
     "plugins": [
       "expo-router",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Skin & Care uses the camera for daily progress photos so you can track changes in your skin over time.",
+          "microphonePermission": false,
+          "recordAudioAndroid": false
+        }
+      ],
       [
         "expo-splash-screen",
         {

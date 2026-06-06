@@ -1,6 +1,6 @@
 # Pending todo lists
 
-**Last updated:** May 31, 2026  
+**Last updated:** June 6, 2026  
 **Start here** for active work. Completed checklists live in [`../archive/`](../archive/README.md).
 
 **Also done (code, not a todo file):** P0+P1 codebase hardening — [`docs/architecture/CODEBASE_REVIEW_ROADMAP.md`](../../docs/architecture/CODEBASE_REVIEW_ROADMAP.md) (commit `139f424`).
@@ -18,6 +18,7 @@
 | [`AGENTIC_CHECKOUT_UI_AND_BACKEND_TODOS.md`](AGENTIC_CHECKOUT_UI_AND_BACKEND_TODOS.md) | Open checkout debt (#2, #4–#7, #9–#10, #12) |
 | [`Step10-LangChain-LangGraph-LangSmith-todos.md`](Step10-LangChain-LangGraph-LangSmith-todos.md) | Step 10 LangGraph + guardrails (blocked on checkout payment-rail prereqs) |
 | [`DERM_PATIENT_QA_REDDIT_PIPELINE_TODOS.md`](DERM_PATIENT_QA_REDDIT_PIPELINE_TODOS.md) | Derm Q&A UI (Phase 8), eval/CI (Phase 6), ops (Phase 7) |
+| [`IOS_SKINCARE_TRACKER_LAUNCH_TODOS.md`](IOS_SKINCARE_TRACKER_LAUNCH_TODOS.md) | Skin & Care iOS TestFlight — auth, tracking, care_program subscription |
 
 ---
 

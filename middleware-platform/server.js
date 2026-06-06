@@ -72,7 +72,9 @@ const {
   SOMO_LANDING_BUILD_INSTRUCTIONS_HTML,
   isSomoLandingBuildReady: landingBuildReady,
 } = require('./lib/static-hosting-paths');
-const { registerEarlySomoLandingStatic } = require('./bootstrap/static-hosting');
+const {
+  registerEarlySomoLandingStatic,
+} = require('./bootstrap/static-hosting');
 // Node 18+ has global fetch; fallback to axios where needed
 // Initialize Stripe with proper configuration and validation
 const stripeConfig = require('./utils/stripe-config');
@@ -2117,7 +2119,7 @@ function getSomoLandingBuildPath(...subPaths) {
 function trySendSomoLanding(res) {
   if (!landingBuildReady(getSomoLandingBuildPath)) return false;
   res.sendFile(path.resolve(getSomoLandingBuildPath('index.html')));
-  return true;
+    return true;
 }
 
 function sendSomoLandingOrInstructions(res) {
@@ -10143,8 +10145,8 @@ function onServerListening() {
         }
       };
       const kickoffFinancialJobs = () => {
-        runReconciliation();
-        runDailyClose();
+      runReconciliation();
+      runDailyClose();
       };
       const isProdEnv = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'prod';
       const devLightStart = process.env.DEV_LIGHT_START === '1';

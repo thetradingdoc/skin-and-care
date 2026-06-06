@@ -10,11 +10,18 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
-const SCAN_ROOTS = [
+const BRAND_PROFILE = (process.env.BRAND_PROFILE || '').trim().toLowerCase();
+
+const ALL_SCAN_ROOTS = [
   path.join(ROOT, 'unified-dashboard'),
   path.join(ROOT, 'middleware-platform/public'),
   path.join(ROOT, 'patient-app'),
 ];
+
+/** Consumer brand branches (e.g. skin-and-care) use Skin & Care copy in patient-app. */
+const SCAN_ROOTS = BRAND_PROFILE === 'skin-and-care'
+  ? ALL_SCAN_ROOTS.filter((p) => !p.endsWith(`${path.sep}patient-app`))
+  : ALL_SCAN_ROOTS;
 
 const SKIP_DIRS = new Set([
   'node_modules',
